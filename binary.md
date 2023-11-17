@@ -1,4 +1,3 @@
-
 {% assign BITS = 24 %}
 <style>
     td {
@@ -60,6 +59,9 @@ Liquid for loop includes the last number, thus the Minus
 <div id="color-display" style="width: 100px; height: 100px; margin-top: 10px;"></div>
 <div>
     <button onclick="invertBits()">Invert Bits</button>
+</div>
+<div>
+    <button onclick="rotateBitsLeft()">Rotate Left</button>
 </div>
 <script>
     const BITS = {{ BITS }};
@@ -149,6 +151,18 @@ Liquid for loop includes the last number, thus the Minus
     function invertBits() {
         let binary = getBits();
         binary = binary.split('').map(bit => (bit === '0' ? '1' : '0')).join('');
+        setConversions(binary);
+        // Update bits
+        for (let i = 0; i < BITS; i++) {
+            let digit = binary.charAt(i);
+            document.getElementById('digit' + i).value = digit;
+            document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
+        }
+    }
+    // Rotate bits to the left
+    function rotateBitsLeft() {
+        let binary = getBits();
+        binary = binary.substring(1) + binary[0];
         setConversions(binary);
         // Update bits
         for (let i = 0; i < BITS; i++) {
