@@ -20,15 +20,13 @@ Jekyll Table Reference: https://idratherbewriting.com/documentation-theme-jekyll
 
 --->
 
-{% assign BITS = 8 %}
-
+{% assign BITS = 24 %}
 <style>
     td {
         text-align: center;
         vertical-align: middle;
     }
 </style>
-
 <table>
     <thead>
         <tr class="" id="">
@@ -37,16 +35,14 @@ Jekyll Table Reference: https://idratherbewriting.com/documentation-theme-jekyll
     </thead>
     <tbody>
         <tr>
-            <td id="binary">00000000</td>
+            <td id="binary">000000000000000000000000</td>
         </tr>
     </tbody>
 </table>
-
 {% comment %}
 Liquid for loop includes the last number, thus the Minus
 {% endcomment %}
-{% assign bits = BITS | minus: 1 %} 
-
+{% assign bits = BITS | minus: 1 %}
 <table>
     <thead>
         <tr>
@@ -74,18 +70,20 @@ Liquid for loop includes the last number, thus the Minus
         </tr>
     </tbody>
 </table>
-
 <div>
     <label for="resultant">Resultant:</label>
     <span id="resultant-value">0</span>
 </div>
-
+<div>
+    <label for="ascii-character">ASCII Character:</label>
+    <span id="ascii-character-value"></span>
+</div>
+<div id="color-display" style="width: 100px; height: 100px; margin-top: 10px;"></div>
 <script>
     const BITS = {{ BITS }};
     const MAX = 2 ** BITS - 1;
     const IMAGE_ON = "{{site.baseurl}}/images/bulb_on.gif";
-    const IMAGE_OFF = "{{site.baseurl}}/images/bulb_off.png"
-
+    const IMAGE_OFF = "{{site.baseurl}}/images/bulb_off.png";
     // return string with the current value of each bit
     function getBits() {
         let bits = "";
@@ -94,14 +92,16 @@ Liquid for loop includes the last number, thus the Minus
         }
         return bits;
     }
-
     // setter for Document Object Model (DOM) values
     function setConversions(binary) {
         document.getElementById('binary').innerHTML = binary;
         // Resultant value
         document.getElementById('resultant-value').innerHTML = parseInt(binary, 2);
+        // Update ASCII character display
+        updateAsciiCharacter();
+        // Update color display
+        updateColorDisplay();
     }
-
     // toggle selected bit and recalculate
     function toggleBit(i) {
         const dig = document.getElementById('digit' + i);
@@ -119,7 +119,6 @@ Liquid for loop includes the last number, thus the Minus
         const binary = getBits();
         setConversions(binary);
     }
-
     // add is a positive integer, subtract is a negative integer
     function add(n) {
         let binary = getBits();
@@ -141,4 +140,30 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
     }
+    // Update ASCII character display
+    function updateAsciiCharacter() {
+        const binary = getBits();
+        const decimal = parseInt(binary, 2);
+        const asciiCharacter = String.fromCharCode(decimal);
+        const asciiDisplay = document.getElementById('ascii-character-value');
+        if (decimal >= 32 && decimal <= 126) {
+            // Display printable ASCII characters
+            asciiDisplay.innerHTML = asciiCharacter;
+        } else {
+            // Display non-printable ASCII characters
+            asciiDisplay.innerHTML = "Non-Printable";
+        }
+    }
+    // Update color display
+    function updateColorDisplay() {
+        const binary = getBits();
+        const red = parseInt(binary.substring(0, 8), 2);
+        const green = parseInt(binary.substring(8, 16), 2);
+        const blue = parseInt(binary.substring(16, 24), 2);
+        const colorDisplay = document.getElementById('color-display');
+        colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+    }
+    // Call the initial update functions
+    updateAsciiCharacter();
+    updateColorDisplay();
 </script>
