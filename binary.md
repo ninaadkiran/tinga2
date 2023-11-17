@@ -1,24 +1,3 @@
----
-title: Binary Project
-layout: post
-courses: { compsci: {week: 1} }
-type: hacks
----
-
-<!-- 
-
-Learn how page works, plus learn about binary
-Hack 0: Do your own on/off thing with Image and Buttons thing
-Hack 1: change display to indicate the value of bin (128, 64, 32, 16, 8, 4, 2, 1)
-Hack 2: change one-zero input under bulb to perform updates to the page
-
-Learn about binary representations
-Hack 3: add an ASCII character display to text when 8 bits, determine if printable or not printable
-Hack 4: change to 24 bits and add a color code and display color when 24 bits. Think about display on this one, perhaps wrap bits 
-
-Jekyll Table Reference: https://idratherbewriting.com/documentation-theme-jekyll/mydoc_tables.html
-
---->
 
 {% assign BITS = 24 %}
 <style>
@@ -79,6 +58,9 @@ Liquid for loop includes the last number, thus the Minus
     <span id="ascii-character-value"></span>
 </div>
 <div id="color-display" style="width: 100px; height: 100px; margin-top: 10px;"></div>
+<div>
+    <button onclick="invertBits()">Invert Bits</button>
+</div>
 <script>
     const BITS = {{ BITS }};
     const MAX = 2 ** BITS - 1;
@@ -162,6 +144,18 @@ Liquid for loop includes the last number, thus the Minus
         const blue = parseInt(binary.substring(16, 24), 2);
         const colorDisplay = document.getElementById('color-display');
         colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+    }
+    // Invert all bits in the binary representation
+    function invertBits() {
+        let binary = getBits();
+        binary = binary.split('').map(bit => (bit === '0' ? '1' : '0')).join('');
+        setConversions(binary);
+        // Update bits
+        for (let i = 0; i < BITS; i++) {
+            let digit = binary.charAt(i);
+            document.getElementById('digit' + i).value = digit;
+            document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
+        }
     }
     // Call the initial update functions
     updateAsciiCharacter();
