@@ -63,6 +63,9 @@ Liquid for loop includes the last number, thus the Minus
 <div>
     <button onclick="rotateBitsLeft()">Rotate Left</button>
 </div>
+<div>
+    <button onclick="clearAll()">Clear All</button>
+</div>
 <script>
     const BITS = {{ BITS }};
     const MAX = 2 ** BITS - 1;
@@ -170,6 +173,16 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('digit' + i).value = digit;
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
+    }
+    // Clear all numbers and set them to 0
+    function clearAll() {
+        for (let i = 0; i < BITS; i++) {
+            document.getElementById('digit' + i).value = 0;
+            document.getElementById('bulb' + i).src = IMAGE_OFF;
+        }
+        // Set binary representation to all zeros
+        const binary = '0'.repeat(BITS);
+        setConversions(binary);
     }
     // Call the initial update functions
     updateAsciiCharacter();
