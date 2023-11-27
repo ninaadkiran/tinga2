@@ -4,6 +4,10 @@
         text-align: center;
         vertical-align: middle;
     }
+
+    #opacity-slider {
+        width: 100%;
+    }
 </style>
 <table>
     <thead>
@@ -56,7 +60,9 @@ Liquid for loop includes the last number, thus the Minus
     <label for="ascii-character">ASCII Character:</label>
     <span id="ascii-character-value"></span>
 </div>
-<div id="color-display" style="width: 100px; height: 100px; margin-top: 10px;"></div>
+<div id="color-display" style="width: 100px; height: 100px; margin-top: 10px; position: relative;">
+    <input type="range" id="opacity-slider" min="0" max="1" step="0.01" value="1" oninput="updateColorDisplay()">
+</div>
 <div>
     <button onclick="invertBits()">Invert Bits</button>
 </div>
@@ -65,16 +71,6 @@ Liquid for loop includes the last number, thus the Minus
 </div>
 <div>
     <button onclick="clearAll()">Clear All</button>
-</div>
-<div id="rgb-values">
-    <label for="red-value">Red:</label>
-    <span id="red-value">0</span>
-    <br>
-    <label for="green-value">Green:</label>
-    <span id="green-value">0</span>
-    <br>
-    <label for="blue-value">Blue:</label>
-    <span id="blue-value">0</span>
 </div>
 <script>
     const BITS = {{ BITS }};
@@ -157,12 +153,9 @@ Liquid for loop includes the last number, thus the Minus
         const red = parseInt(binary.substring(0, 8), 2);
         const green = parseInt(binary.substring(8, 16), 2);
         const blue = parseInt(binary.substring(16, 24), 2);
+        const opacity = document.getElementById('opacity-slider').value;
         const colorDisplay = document.getElementById('color-display');
-        colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
-        // Update RGB values
-    document.getElementById('red-value').innerHTML = red;
-    document.getElementById('green-value').innerHTML = green;
-    document.getElementById('blue-value').innerHTML = blue;
+        colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     }
     // Invert all bits in the binary representation
     function invertBits() {
