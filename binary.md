@@ -66,6 +66,16 @@ Liquid for loop includes the last number, thus the Minus
 <div>
     <button onclick="clearAll()">Clear All</button>
 </div>
+<div id="rgb-values">
+    <label for="red-value">Red:</label>
+    <span id="red-value">0</span>
+    <br>
+    <label for="green-value">Green:</label>
+    <span id="green-value">0</span>
+    <br>
+    <label for="blue-value">Blue:</label>
+    <span id="blue-value">0</span>
+</div>
 <script>
     const BITS = {{ BITS }};
     const MAX = 2 ** BITS - 1;
@@ -149,6 +159,10 @@ Liquid for loop includes the last number, thus the Minus
         const blue = parseInt(binary.substring(16, 24), 2);
         const colorDisplay = document.getElementById('color-display');
         colorDisplay.style.backgroundColor = `rgb(${red}, ${green}, ${blue})`;
+        // Update RGB values
+    document.getElementById('red-value').innerHTML = red;
+    document.getElementById('green-value').innerHTML = green;
+    document.getElementById('blue-value').innerHTML = blue;
     }
     // Invert all bits in the binary representation
     function invertBits() {
