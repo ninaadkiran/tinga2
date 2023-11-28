@@ -90,7 +90,7 @@ Liquid for loop includes the last number, thus the Minus
     // return string with the current value of each bit
     function getBits() {
         let bits = "";
-        for(let i = 0; i < BITS; i++) {
+        for (let i = 0; i < BITS; i++) {
             bits = bits + document.getElementById('digit' + i).value;
         }
         return bits;
@@ -167,9 +167,9 @@ Liquid for loop includes the last number, thus the Minus
         const colorDisplay = document.getElementById('color-display');
         colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         // Update RGB values
-    document.getElementById('red-value').innerHTML = red;
-    document.getElementById('green-value').innerHTML = green;
-    document.getElementById('blue-value').innerHTML = blue;
+        document.getElementById('red-value').innerHTML = red;
+        document.getElementById('green-value').innerHTML = green;
+        document.getElementById('blue-value').innerHTML = blue;
     }
     // Invert all bits in the binary representation
     function invertBits() {
@@ -182,6 +182,9 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('digit' + i).value = digit;
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
+        // Reset opacity to 1 when inverting bits
+        document.getElementById('opacity-slider').value = 1;
+        updateColorDisplay();
     }
     // Rotate bits to the left
     function rotateBitsLeft() {
@@ -208,4 +211,7 @@ Liquid for loop includes the last number, thus the Minus
     // Call the initial update functions
     updateAsciiCharacter();
     updateColorDisplay();
+    // Initialize binary value to all zeros
+    const initialBinary = '0'.repeat(BITS);
+    setConversions(initialBinary);
 </script>
