@@ -82,6 +82,10 @@ Liquid for loop includes the last number, thus the Minus
     <label for="blue-value">Blue:</label>
     <span id="blue-value">0</span>
 </div>
+<div>
+    <label for="color-picker">Color Picker:</label>
+    <input type="color" id="color-picker" onchange="updateBinaryFromColor()">
+</div>
 <script>
     const BITS = {{ BITS }};
     const MAX = 2 ** BITS - 1;
@@ -214,4 +218,39 @@ Liquid for loop includes the last number, thus the Minus
     // Initialize binary value to all zeros
     const initialBinary = '0'.repeat(BITS);
     setConversions(initialBinary);
+  function updateBinaryFromColor() {
+        const colorPicker = document.getElementById('color-picker');
+        const color = colorPicker.value;
+        const rgb = hexToRgb(color.substring(1)); // Exclude the '#' from the hex color
+        const binary = rgbToBinary(rgb);
+        setConversions(binary);
+        // Update bits
+        for (let i = 0; i < BITS; i++) {
+            let digit = binary.charAt(i);
+            document.getElementById('digit' + i).value = digit;
+            document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
+        }
+    }
+    // Helper function to convert RGB to binary
+    function rgbToBinary(rgb) {
+        const binaryRed = rgbComponentToBinary(rgb.r);
+        const binaryGreen = rgbComponentToBinary(rgb.g);
+        const binaryBlue = rgbComponentToBinary(rgb.b);
+        return binaryRed + binaryGreen + binaryBlue;
+    }
+    // Helper function to convert a single RGB component to binary
+    function rgbComponentToBinary(component) {
+        return component.toString(2).padStart(8, '0');
+    }
+    // Helper function to convert hex color to RGB
+    function hexToRgb(hex) {
+        const bigint = parseInt(hex, 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return { r, g, b };
+    }
+    // Call the initial update functions
+    updateAsciiCharacter();
+    updateColorDisplay();
 </script>
