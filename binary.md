@@ -34,7 +34,7 @@ Liquid for loop includes the last number, thus the Minus
             {% for i in (0..bits) %}
             <th>
                 <img id="bulb{{ i }}" src="{{site.baseurl}}/images/lightoff.jpg" alt="" width="40" height="Auto">
-                <div class="button" id="butt{{ i }}" onclick="toggleBit({{ i }})">on</div>
+                <div class="button" id="butt{{ i }}" onclick="toggleBit({{ i }})">off</div>
             </th>
             {% endfor %}
         </tr>
@@ -118,9 +118,11 @@ Liquid for loop includes the last number, thus the Minus
         if (image.src.match(IMAGE_ON)) {
             dig.value = 0;
             image.src = IMAGE_OFF;
+            butt.innerHTML = 'off'; // Update button text to 'off'
         } else {
             dig.value = 1;
             image.src = IMAGE_ON;
+            butt.innerHTML = 'on'; // Update button text to 'on'
         }
         // Binary numbers
         const binary = getBits();
@@ -253,4 +255,18 @@ Liquid for loop includes the last number, thus the Minus
     // Call the initial update functions
     updateAsciiCharacter();
     updateColorDisplay();
+    // turn off the selected bit
+    function toggleOff(i) {
+        const dig = document.getElementById('digit' + i);
+        const image = document.getElementById('bulb' + i);
+        const butt = document.getElementById('butt' + i);
+        // Change digit and visual
+        dig.value = 0;
+        image.src = IMAGE_OFF;
+        butt.innerHTML = 'on'; // Update button text to 'on'
+        // Binary numbers
+        const binary = getBits();
+        setConversions(binary);
+    }
+
 </script>
