@@ -1,5 +1,32 @@
 {% assign BITS = 24 %}
 <style>
+    body {
+        background-image: url('images/sunset.gif'); /* Replace with the actual URL */
+        background-size: cover;
+        background-position: center;
+        margin: 0;
+        padding: 0;
+        height: 160vh;
+        color:white;
+        
+    }
+
+    td {
+        text-align: center;
+        vertical-align: middle;
+        color:white;
+    }
+
+    #opacity-slider {
+        width: 100%;
+    }
+
+    table {
+        background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background to the table */
+    }
+</style>
+
+<style>
     td {
         text-align: center;
         vertical-align: middle;
