@@ -84,7 +84,7 @@ Liquid for loop includes the last number, thus the Minus
 </div>
 <div>
     <label for="color-picker">Color Picker:</label>
-    <input type="color" id="color-picker" onchange="updateBinaryFromColor()">
+    <input type="color" id="color-picker" onchange="updateColorDisplay(); updateBinaryFromColor();">
 </div>
 <div>
     <label for="hex-color-code">Hex Color Code:</label>
@@ -154,6 +154,24 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
     }
+      function updateColorDisplay() {
+        const binary = getBits();
+        const red = parseInt(binary.substring(0, 8), 2);
+        const green = parseInt(binary.substring(8, 16), 2);
+        const blue = parseInt(binary.substring(16, 24), 2);
+        const opacity = document.getElementById('opacity-slider').value;
+        const colorDisplay = document.getElementById('color-display');
+        colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+
+        // Update hexadecimal color code
+        const hexColorCode = rgbToHex(red, green, blue);
+        document.getElementById('hex-color-code-value').innerHTML = hexColorCode;
+
+        // Update RGB values
+        document.getElementById('red-value').innerHTML = red;
+        document.getElementById('green-value').innerHTML = green;
+        document.getElementById('blue-value').innerHTML = blue;
+    }
     // Update ASCII character display
     function updateAsciiCharacter() {
         const binary = getBits();
@@ -167,20 +185,6 @@ Liquid for loop includes the last number, thus the Minus
             // Display non-printable ASCII characters
             asciiDisplay.innerHTML = "Non-Printable";
         }
-    }
-    // Update color display
-    function updateColorDisplay() {
-        const binary = getBits();
-        const red = parseInt(binary.substring(0, 8), 2);
-        const green = parseInt(binary.substring(8, 16), 2);
-        const blue = parseInt(binary.substring(16, 24), 2);
-        const opacity = document.getElementById('opacity-slider').value;
-        const colorDisplay = document.getElementById('color-display');
-        colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
-        // Update RGB values
-        document.getElementById('red-value').innerHTML = red;
-        document.getElementById('green-value').innerHTML = green;
-        document.getElementById('blue-value').innerHTML = blue;
     }
     // Invert all bits in the binary representation
     function invertBits() {
@@ -237,6 +241,7 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('digit' + i).value = digit;
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
+         updateColorDisplay();
     }
     // Helper function to convert RGB to binary
     function rgbToBinary(rgb) {
@@ -273,25 +278,6 @@ Liquid for loop includes the last number, thus the Minus
         const binary = getBits();
         setConversions(binary);
     }
-function updateColorDisplay() {
-    const binary = getBits();
-    const red = parseInt(binary.substring(0, 8), 2);
-    const green = parseInt(binary.substring(8, 16), 2);
-    const blue = parseInt(binary.substring(16, 24), 2);
-    const opacity = document.getElementById('opacity-slider').value;
-    const colorDisplay = document.getElementById('color-display');
-    colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
-
-    // Update hexadecimal color code
-    const hexColorCode = rgbToHex(red, green, blue);
-    document.getElementById('hex-color-code-value').innerHTML = hexColorCode;
-
-    // Update RGB values
-    document.getElementById('red-value').innerHTML = red;
-    document.getElementById('green-value').innerHTML = green;
-    document.getElementById('blue-value').innerHTML = blue;
-}
-
 // Helper function to convert RGB to hexadecimal
 function rgbToHex(r, g, b) {
     const componentToHex = (c) => {
