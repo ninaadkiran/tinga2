@@ -86,6 +86,11 @@ Liquid for loop includes the last number, thus the Minus
     <label for="color-picker">Color Picker:</label>
     <input type="color" id="color-picker" onchange="updateBinaryFromColor()">
 </div>
+<div>
+    <label for="hex-color-code">Hex Color Code:</label>
+    <span id="hex-color-code-value"></span>
+</div>
+
 <script>
     const BITS = {{ BITS }};
     const MAX = 2 ** BITS - 1;
@@ -268,5 +273,31 @@ Liquid for loop includes the last number, thus the Minus
         const binary = getBits();
         setConversions(binary);
     }
+function updateColorDisplay() {
+    const binary = getBits();
+    const red = parseInt(binary.substring(0, 8), 2);
+    const green = parseInt(binary.substring(8, 16), 2);
+    const blue = parseInt(binary.substring(16, 24), 2);
+    const opacity = document.getElementById('opacity-slider').value;
+    const colorDisplay = document.getElementById('color-display');
+    colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
 
+    // Update hexadecimal color code
+    const hexColorCode = rgbToHex(red, green, blue);
+    document.getElementById('hex-color-code-value').innerHTML = hexColorCode;
+
+    // Update RGB values
+    document.getElementById('red-value').innerHTML = red;
+    document.getElementById('green-value').innerHTML = green;
+    document.getElementById('blue-value').innerHTML = blue;
+}
+
+// Helper function to convert RGB to hexadecimal
+function rgbToHex(r, g, b) {
+    const componentToHex = (c) => {
+        const hex = c.toString(16);
+        return hex.length == 1 ? '0' + hex : hex;
+    };
+    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+}
 </script>
