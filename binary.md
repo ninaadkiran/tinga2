@@ -159,23 +159,38 @@ Liquid for loop includes the last number, thus the Minus
         }
     }
       function updateColorDisplay() {
-        const binary = getBits();
-        const red = parseInt(binary.substring(0, 8), 2);
-        const green = parseInt(binary.substring(8, 16), 2);
-        const blue = parseInt(binary.substring(16, 24), 2);
-        const opacity = document.getElementById('opacity-slider').value;
-        const colorDisplay = document.getElementById('color-display');
-        colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+    const binary = getBits();
+    const red = parseInt(binary.substring(0, 8), 2);
+    const green = parseInt(binary.substring(8, 16), 2);
+    const blue = parseInt(binary.substring(16, 24), 2);
+    const opacity = document.getElementById('opacity-slider').value;
+    const colorDisplay = document.getElementById('color-display');
+    colorDisplay.style.backgroundColor = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
 
-        // Update hexadecimal color code
-        const hexColorCode = rgbToHex(red, green, blue);
-        document.getElementById('hex-color-code-value').innerHTML = hexColorCode;
+    // Update hexadecimal color code
+    const hexColorCode = rgbToHex(red, green, blue);
+    document.getElementById('hex-color-code-value').innerHTML = hexColorCode;
 
-        // Update RGB values
-        document.getElementById('red-value').innerHTML = red;
-        document.getElementById('green-value').innerHTML = green;
-        document.getElementById('blue-value').innerHTML = blue;
+    // Update RGB values
+    document.getElementById('red-value').innerHTML = red;
+    document.getElementById('green-value').innerHTML = green;
+    document.getElementById('blue-value').innerHTML = blue;
+
+    // Update buttons based on the binary representation of the color
+    for (let i = 0; i < BITS; i++) {
+        const digit = binary.charAt(i);
+        const image = document.getElementById('bulb' + i);
+        const butt = document.getElementById('butt' + i);
+
+        if (digit === "1") {
+            image.src = IMAGE_ON;
+            butt.innerHTML = 'on';
+        } else {
+            image.src = IMAGE_OFF;
+            butt.innerHTML = 'off';
+        }
     }
+}
     // Update ASCII character display
     function updateAsciiCharacter() {
         const binary = getBits();
