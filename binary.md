@@ -90,6 +90,10 @@ Liquid for loop includes the last number, thus the Minus
     <label for="hex-color-code">Hex Color Code:</label>
     <span id="hex-color-code-value"></span>
 </div>
+<div>
+    <label for="hex-to-rgb-input">Hex to RGB:</label>
+    <input type="text" id="hex-to-rgb-input" oninput="updateRGBFromHex()">
+</div>
 
 <script>
     const BITS = {{ BITS }};
@@ -243,6 +247,7 @@ Liquid for loop includes the last number, thus the Minus
         }
          updateColorDisplay();
     }
+
     // Helper function to convert RGB to binary
     function rgbToBinary(rgb) {
         const binaryRed = rgbComponentToBinary(rgb.r);
@@ -278,12 +283,27 @@ Liquid for loop includes the last number, thus the Minus
         const binary = getBits();
         setConversions(binary);
     }
-// Helper function to convert RGB to hexadecimal
-function rgbToHex(r, g, b) {
-    const componentToHex = (c) => {
-        const hex = c.toString(16);
-        return hex.length == 1 ? '0' + hex : hex;
-    };
-    return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
-}
+    // Helper function to convert RGB to hexadecimal
+    function rgbToHex(r, g, b) {
+        const componentToHex = (c) => {
+            const hex = c.toString(16);
+            return hex.length == 1 ? '0' + hex : hex;
+        };
+        return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
+    }
+
+    // Update RGB values from Hex input
+    function updateRGBFromHex() {
+        const hexInput = document.getElementById('hex-to-rgb-input').value;
+        const rgb = hexToRgb(hexInput);
+        const binary = rgbToBinary(rgb);
+        setConversions(binary);
+        // Update bits
+        for (let i = 0; i < BITS; i++) {
+            let digit = binary.charAt(i);
+            document.getElementById('digit' + i).value = digit;
+            document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
+        }
+        updateColorDisplay();
+    }
 </script>
