@@ -7,14 +7,13 @@
         margin: 0;
         padding: 0;
         height: 160vh;
-        color:grey;
-        
+        color: grey;
     }
 
     td {
         text-align: center;
         vertical-align: middle;
-        color:white;
+        color: white;
     }
 
     #opacity-slider {
@@ -98,6 +97,10 @@ Liquid for loop includes the last number, thus the Minus
 </div>
 <div>
     <button onclick="clearAll()">Clear All</button>
+</div>
+<div>
+    <label for="toggle-gif-btn">Toggle Background GIF:</label>
+    <button id="toggle-gif-btn" onclick="toggleBackgroundGif()">Toggle</button>
 </div>
 <div id="rgb-values">
     <label for="red-value">Red:</label>
@@ -185,7 +188,7 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
     }
-      function updateColorDisplay() {
+    function updateColorDisplay() {
     const binary = getBits();
     const red = parseInt(binary.substring(0, 8), 2);
     const green = parseInt(binary.substring(8, 16), 2);
@@ -275,7 +278,9 @@ Liquid for loop includes the last number, thus the Minus
     // Initialize binary value to all zeros
     const initialBinary = '0'.repeat(BITS);
     setConversions(initialBinary);
-  function updateBinaryFromColor() {
+
+    // Update binary from color picker
+    function updateBinaryFromColor() {
         const colorPicker = document.getElementById('color-picker');
         const color = colorPicker.value;
         const rgb = hexToRgb(color.substring(1)); // Exclude the '#' from the hex color
@@ -287,7 +292,40 @@ Liquid for loop includes the last number, thus the Minus
             document.getElementById('digit' + i).value = digit;
             document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
         }
-         updateColorDisplay();
+        updateColorDisplay();
+    }
+
+    // Update RGB from Hex input
+    function updateRGBFromHex() {
+        const hexInput = document.getElementById('hex-to-rgb-input').value;
+        const rgb = hexToRgb(hexInput);
+        if (rgb) {
+            const binary = rgbToBinary(rgb);
+            setConversions(binary);
+            // Update bits
+            for (let i = 0; i < BITS; i++) {
+                let digit = binary.charAt(i);
+                document.getElementById('digit' + i).value = digit;
+                document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
+            }
+            updateColorDisplay();
+        } else {
+            // Handle invalid hex input
+            alert("Invalid Hex Color Code");
+        }
+    }
+
+    // Toggle background GIF
+    function toggleBackgroundGif() {
+        const body = document.body;
+        const currentBackground = body.style.backgroundImage;
+        if (currentBackground === 'url("images/sunset.gif")') {
+            // Turn off the background GIF
+            body.style.backgroundImage = 'none';
+        } else {
+            // Turn on the background GIF
+            body.style.backgroundImage = 'url("images/sunset.gif")';
+        }
     }
 
     // Helper function to convert RGB to binary
@@ -297,34 +335,25 @@ Liquid for loop includes the last number, thus the Minus
         const binaryBlue = rgbComponentToBinary(rgb.b);
         return binaryRed + binaryGreen + binaryBlue;
     }
+
     // Helper function to convert a single RGB component to binary
     function rgbComponentToBinary(component) {
         return component.toString(2).padStart(8, '0');
     }
+
     // Helper function to convert hex color to RGB
     function hexToRgb(hex) {
         const bigint = parseInt(hex, 16);
-        const r = (bigint >> 16) & 255;
-        const g = (bigint >> 8) & 255;
-        const b = bigint & 255;
-        return { r, g, b };
+        if (!isNaN(bigint) && bigint >= 0 && bigint <= 0xFFFFFF) {
+            const r = (bigint >> 16) & 255;
+            const g = (bigint >> 8) & 255;
+            const b = bigint & 255;
+            return { r, g, b };
+        } else {
+            return null; // Invalid hex value
+        }
     }
-    // Call the initial update functions
-    updateAsciiCharacter();
-    updateColorDisplay();
-    // turn off the selected bit
-    function toggleOff(i) {
-        const dig = document.getElementById('digit' + i);
-        const image = document.getElementById('bulb' + i);
-        const butt = document.getElementById('butt' + i);
-        // Change digit and visual
-        dig.value = 0;
-        image.src = IMAGE_OFF;
-        butt.innerHTML = 'on'; // Update button text to 'on'
-        // Binary numbers
-        const binary = getBits();
-        setConversions(binary);
-    }
+
     // Helper function to convert RGB to hexadecimal
     function rgbToHex(r, g, b) {
         const componentToHex = (c) => {
@@ -332,20 +361,5 @@ Liquid for loop includes the last number, thus the Minus
             return hex.length == 1 ? '0' + hex : hex;
         };
         return '#' + componentToHex(r) + componentToHex(g) + componentToHex(b);
-    }
-
-    // Update RGB values from Hex input
-    function updateRGBFromHex() {
-        const hexInput = document.getElementById('hex-to-rgb-input').value;
-        const rgb = hexToRgb(hexInput);
-        const binary = rgbToBinary(rgb);
-        setConversions(binary);
-        // Update bits
-        for (let i = 0; i < BITS; i++) {
-            let digit = binary.charAt(i);
-            document.getElementById('digit' + i).value = digit;
-            document.getElementById('bulb' + i).src = digit === "1" ? IMAGE_ON : IMAGE_OFF;
-        }
-        updateColorDisplay();
     }
 </script>
