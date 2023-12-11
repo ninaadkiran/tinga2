@@ -23,7 +23,12 @@
     table {
         background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background to the table */
     }
+
+    #binary {
+        color: grey; /* Make the binary resultant code gray */
+    }
 </style>
+
 
 <style>
     td {
