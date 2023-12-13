@@ -65,7 +65,7 @@ Liquid for loop includes the last number, thus the Minus
             {% for i in (0..bits) %}
             <th>
                 <img id="bulb{{ i }}" src="{{site.baseurl}}/images/lightoff.jpg" alt="" width="40" height="Auto">
-                <div class="button" id="butt{{ i }}" onclick="toggleBit({{ i }})">off</div>
+                <div class="button" id="butt{{ i }}" style="background-color:purple" onclick="toggleBit({{ i }})">off</div>
             </th>
             {% endfor %}
         </tr>
