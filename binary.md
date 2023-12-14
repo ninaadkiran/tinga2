@@ -9,7 +9,6 @@
         height: 160vh;
         color: grey;
     }
-
     td {
         text-align: center;
         vertical-align: middle;
