@@ -1,7 +1,7 @@
 {% assign BITS = 24 %}
 <style>
     body {
-        background-image: url('images/sunset.gif'); /* Replace with the actual URL */
+        background-image: url('images/sunset.gif');
         background-size: cover;
         background-position: center;
         margin: 0;
@@ -9,6 +9,7 @@
         height: 160vh;
         color: grey;
     }
+
     td {
         text-align: center;
         vertical-align: middle;
@@ -20,11 +21,32 @@
     }
 
     table {
-        background-color: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background to the table */
+        background-color: rgba(255, 255, 255, 0.8);
     }
 
     #binary {
-        color: grey; /* Make the binary resultant code gray */
+        color: grey;
+    }
+
+    /* Updated button styles */
+    .button {
+        padding: 8px 16px; /* Adjust padding for a smaller size */
+        background-color: purple; /* Purple background color */
+        color: white;
+        border: none;
+        border-radius: 4px; /* Add rounded corners */
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    button {
+        padding: 8px 16px; /* Adjust padding for a smaller size */
+        background-color: purple; /* Purple background color */
+        color: white;
+        border: none;
+        border-radius: 4px; /* Add rounded corners */
+        cursor: pointer;
+        margin: 5px;
     }
 </style>
 
